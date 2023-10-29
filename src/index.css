@@ -116,3 +116,26 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+
+.form {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  padding: 25px;
+  background: var(--color-gray);
+  margin-bottom: calc(var(--spacer) * 2);
+  gap: var(--spacer);
+}
+
+.form-group {
+  width: 100%;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+}
+.form-group textarea {
+  height: 100px;
+  resize: none;
+}

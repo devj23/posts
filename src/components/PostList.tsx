@@ -1,6 +1,7 @@
 import React from "react";
 import PostItem from "./PostItem";
 import Spinner from "./Spinner";
+import ItemForm from "./ItemForm";
 
 export type Post = {
   userId: number;
@@ -35,6 +36,12 @@ const PostList = () => {
     setPosts((prevPosts) => prevPosts.filter((p) => p.id !== id));
   };
 
+  const onAddItem = ({ title, body }: { title: string; body: string }) => {
+    const id =
+      Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1000000);
+    setPosts((p) => [...p, { id, title, body, userId: 1 }]);
+  };
+
   if (isLoading) {
     return (
       <section id="posts">
@@ -48,7 +55,26 @@ const PostList = () => {
     );
   }
   if (error) {
-    return <div>We're Sorry, Something Went Wrong</div>;
+    return (
+      <section id="posts">
+        <div className="container">
+          <h2 className="title">Something Went Wrong</h2>
+          <div className="center">
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                setIsLoading(true);
+                setError(false);
+                setPosts([]);
+                fetchPosts();
+              }}
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (!posts.length) {
@@ -56,6 +82,7 @@ const PostList = () => {
       <section id="posts">
         <div className="container">
           <h2 className="title">Featured Posts</h2>
+          <ItemForm onSubmit={onAddItem} />
           <div className="center">
             <button
               className="btn btn-success"
@@ -78,6 +105,8 @@ const PostList = () => {
     <section id="posts">
       <div className="container">
         <h2 className="title">Featured Posts</h2>
+        <ItemForm onSubmit={onAddItem} />
+
         <div className="post-list">
           {posts.map((post) => {
             return (
